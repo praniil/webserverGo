@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/gorilla/websocket"
-	"github.com/rs/cors"
 )
 
 // first connection through http and then upgraded to websocket
@@ -43,13 +42,13 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 const Port = 8080
 
 func main() {
-	corsHandler := cors.New(cors.Options{
-		AllowedOrigins: []string{"*"}, // Allow all origins
-	}).Handler
+	// corsHandler := cors.New(cors.Options{
+	// 	AllowedOrigins: []string{"*"}, // Allow all origins
+	// }).Handler
 	fmt.Println("FROM SERVER SIDE")
 	http.HandleFunc("/ws", handleConnections)
 	fmt.Println("Websocket server started on: 8080")
-	err := http.ListenAndServe(fmt.Sprintf(":%d", Port), corsHandler(http.DefaultServeMux))
+	err := http.ListenAndServe(fmt.Sprintf(":%d", Port), nil)
 	// log.Fatal(http.ListenAndServe("localhost:8080", nil))
 	if err != nil {
 		fmt.Println("ListenAndServe:", err)
